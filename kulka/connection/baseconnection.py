@@ -19,7 +19,7 @@ class BaseConnection(object):
         self._sock.close()
 
     @debuglog
-    def send(self, data, flags=0):
+    def send(self, data):
         retries = 10
         written = 0
 
@@ -27,7 +27,7 @@ class BaseConnection(object):
             _, wlist, _ = select([], [self._sock], [], 1)
 
             if wlist:
-                written += wlist[0].send(data[written:], flags)
+                written += wlist[0].send(data[written:])
 
                 if written >= len(data):
                     return written
