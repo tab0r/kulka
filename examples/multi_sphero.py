@@ -5,22 +5,9 @@ import time
 
 
 def main():
-    # with open('mykulka.txt') as file_:
-    #     addr = file_.readline().strip()
-
     ADDR0 = '68:86:E7:07:07:6B'
     ADDR1 = '68:86:E7:06:FD:1D'
     ADDR2 = '68:86:E7:08:0E:DF'
-    #
-    # with Kulka(addr) as kulka:
-    #     kulka.set_inactivity_timeout(3600)
-    #
-    #     for _ in repeat(None, 600):
-    #         kulka.roll(randint(30, 100), randint(0, 359))
-    #         time.sleep(1)
-    #
-    #     kulka.sleep()
-
 
     with Kulka(ADDR0) as kulka0:
         print("Sphero 0 online")
@@ -32,10 +19,11 @@ def main():
                 kulka1.set_inactivity_timeout(3600)
                 kulka2.set_inactivity_timeout(3600)
 
-                for _ in repeat(None, 600):
-                    kulka0.roll(randint(30, 100), randint(0, 359))
-                    kulka1.roll(randint(30, 100), randint(0, 359))
-                    kulka2.roll(randint(30, 100), randint(0, 359))
+                for _ in repeat(None, 20):
+                    kulka0.roll(randint(30, 50), randint(0, 359))
+                    kulka1.roll(randint(30, 50), randint(0, 359))
+                    kulka2.roll(randint(30, 50), randint(0, 359))
+
                     time.sleep(1)
 
                 kulka0.sleep()
