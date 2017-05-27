@@ -3,7 +3,6 @@ from kulka.connection.exceptions import ConnectionLost
 from kulka.connection import Connection
 from kulka.response import parser
 
-
 class Kulka(object):
 
     def __init__(self, addr):
@@ -11,6 +10,7 @@ class Kulka(object):
         self._connection = Connection.connect(addr)
         self._sequence = 0
         self._recv_buffer = bytearray()
+        self._data = []
 
     def __enter__(self):
         return self
@@ -25,9 +25,11 @@ class Kulka(object):
         self._sequence = (self._sequence + 1) & 0xFF
         return self._sequence
 
+    def data_stream(self):
+        return self._data.pop()
+
     def _send(self, request_):
         request_.sequence = self.sequence()
-
         try:
             self._connection.send(request_.tobytes())
             self._wait_for_ack(request_.sequence)
@@ -39,7 +41,7 @@ class Kulka(object):
             try:
                 response, consumed = parser(self._recv_buffer)
                 self._recv_buffer = self._recv_buffer[consumed:]
-
+                self._data.append(response)
                 if getattr(response, 'seq', None) == sequence:
                     break
             except ValueError:
@@ -66,3 +68,6 @@ class Kulka(object):
 
     def sleep(self, wakeup=0, macro=0, orb_basic=0):
         return self._send(request.Sleep(wakeup, macro, orb_basic))
+
+    def read_locator(self):
+        return self._send(request.ReadLocator())
