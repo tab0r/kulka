@@ -1,0 +1,49 @@
+squalor@hivemind:~/Documents/kulka/examples$ python data_stream.py
+What direction?
+180
+What speed?
+50
+Raw output:
+ bytearray(b'\xff\xce\xff\x82\x00\x08\xff\xf3\x00\x0f')
+{'xpos': (255, 206), 'ypos': (255, 130), 'xvel': (0, 8), 'yvel': (255, 243), 'vel': 15}
+Raw output:
+ bytearray(b'\xff\xcd\xff\x7f\xff\xee\xffM\x00\xb3')
+{'xpos': (255, 205), 'ypos': (255, 127), 'xvel': (255, 238), 'yvel': (255, 77), 'vel': 179}
+Raw output:
+ bytearray(b'\xff\xcd\xffz\xff\xf7\xffU\x00\xab')
+{'xpos': (255, 205), 'ypos': (255, 122), 'xvel': (255, 247), 'yvel': (255, 85), 'vel': 171}
+Raw output:
+ bytearray(b'\xff\xcd\xffr\x001\xfe\xe8\x01\x1c')
+{'xpos': (255, 205), 'ypos': (255, 114), 'xvel': (0, 49), 'yvel': (254, 232), 'vel': 29}
+What direction?
+0
+What speed?
+10
+Raw output:
+ bytearray(b'\xff\xce\xffD\x004\x00\x0b\x005')
+{'xpos': (255, 206), 'ypos': (255, 68), 'xvel': (0, 52), 'yvel': (0, 11), 'vel': 53}
+Raw output:
+ bytearray(b'\xff\xce\xffD\xff\xf6\xff\xf9\x00\x0c')
+{'xpos': (255, 206), 'ypos': (255, 68), 'xvel': (255, 246), 'yvel': (255, 249), 'vel': 12}
+Raw output:
+ bytearray(b'\xff\xcd\xffD\xff\xf9\xff\xfa\x00\t')
+{'xpos': (255, 205), 'ypos': (255, 68), 'xvel': (255, 249), 'yvel': (255, 250), 'vel': 9}
+Raw output:
+ bytearray(b'\xff\xcd\xffD\x00\x00\x00\x00\x00\x00')
+{'xpos': (255, 205), 'ypos': (255, 68), 'xvel': (0, 0), 'yvel': (0, 0), 'vel': 0}
+What direction?
+0
+What speed?
+200
+Raw output:
+ bytearray(b'\xff\xcd\xffE\x00\x00\x00\x11\x00\x11')
+{'xpos': (255, 205), 'ypos': (255, 69), 'xvel': (0, 0), 'yvel': (0, 17), 'vel': 17}
+Raw output:
+ bytearray(b'\xff\xce\xffO\x00*\x02\x8e\x02\x8f')
+{'xpos': (255, 206), 'ypos': (255, 79), 'xvel': (0, 42), 'yvel': (2, 142), 'vel': 145}
+Raw output:
+ bytearray(b'\xff\xcf\xffm\x00\r\x04|\x04|')
+{'xpos': (255, 207), 'ypos': (255, 109), 'xvel': (0, 13), 'yvel': (4, 124), 'vel': 128}
+Raw output:
+ bytearray(b'\xff\xd0\xff\x9b\x00\x12\x05\xeb\x05\xeb')
+{'xpos': (255, 208), 'ypos': (255, 155), 'xvel': (0, 18), 'yvel': (5, 235), 'vel': 240}
