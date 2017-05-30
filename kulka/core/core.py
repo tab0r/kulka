@@ -25,7 +25,7 @@ class Kulka(object):
         self._sequence = (self._sequence + 1) & 0xFF
         return self._sequence
 
-    def data_stream(self):
+    def data_poll(self):
         return self._data.pop()
 
     def _send(self, request_):
@@ -51,6 +51,9 @@ class Kulka(object):
         self._connection.close()
         self._connection = Connection.connect(self._addr)
 
+    def _listen(self, n = 10):
+        pass
+
     def set_inactivity_timeout(self, timeout):
         return self._send(request.SetInactivityTimeout(timeout))
 
@@ -71,3 +74,6 @@ class Kulka(object):
 
     def read_locator(self):
         return self._send(request.ReadLocator())
+
+    def set_streaming(self, n = 10, m = 1, mask = 0, pcnt = 255, mask2 = 0):
+        return self._send(request.SetStreaming(n, m, mask, pcnt, mask2))

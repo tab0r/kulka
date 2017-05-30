@@ -5,6 +5,7 @@ from kulka.request.setinactivitytimeout import SetInactivityTimeout
 from kulka.request.setrgb import SetRGB
 from kulka.request.sleep import Sleep
 from kulka.request.readlocator import ReadLocator
+from kulka.request.setstreaming import SetStreaming
 
 __all__ = [
     'Roll',
@@ -12,5 +13,6 @@ __all__ = [
     'SetInactivityTimeout',
     'SetRGB',
     'Sleep',
-    'ReadLocator'
+    'ReadLocator',
+    'SetStreaming'
 ]

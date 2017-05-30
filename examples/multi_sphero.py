@@ -1,8 +1,10 @@
+import sys
+import os
+sys.path.append(os.path.abspath("../"))
 from kulka import Kulka
 from itertools import repeat
 from random import randint
 import time
-
 
 def main():
     ADDR0 = '68:86:E7:07:07:6B'
@@ -15,14 +17,14 @@ def main():
             print("Sphero 1 online")
             with Kulka(ADDR2) as kulka2:
                 print("Sphero 2 online")
-                kulka0.set_inactivity_timeout(3600)
-                kulka1.set_inactivity_timeout(3600)
-                kulka2.set_inactivity_timeout(3600)
+                kulka0.set_inactivity_timeout(30)
+                kulka1.set_inactivity_timeout(30)
+                kulka2.set_inactivity_timeout(30)
 
                 for _ in repeat(None, 20):
-                    kulka0.roll(randint(30, 50), randint(0, 359))
-                    kulka1.roll(randint(30, 50), randint(0, 359))
-                    kulka2.roll(randint(30, 50), randint(0, 359))
+                    # kulka0.roll(randint(30, 50), randint(0, 359))
+                    # kulka1.roll(randint(30, 50), randint(0, 359))
+                    # kulka2.roll(randint(30, 50), randint(0, 359))
 
                     time.sleep(1)
 
