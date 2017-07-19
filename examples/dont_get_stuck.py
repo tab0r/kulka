@@ -29,7 +29,6 @@ def parse_locator(data):
 
 def roll_until_stuck(kulka, direction, speed = 50):
     kulka.roll(speed, direction)
-    print(speed, direction)
     kulka.read_locator()
     data = kulka.data_poll()
     output = parse_locator(data)
@@ -40,28 +39,11 @@ def roll_until_stuck(kulka, direction, speed = 50):
         data = kulka.data_poll()
         output = parse_locator(data)
         speed_reading = output['sog']
-        print("Current speed:", speed_reading)
-        time.sleep(3/20)
-
-def roll_to_home(kulka, threshold = 10, speed = 50):
-    kulka.read_locator()
-    data = kulka.data_poll()
-    # print("Raw output:\n", data[2])
-    output = parse_locator(data)
-    speed_reading = output['sog']
-    distance = (output['xpos']**2 + output['ypos']**2)**0.5
-    direction = (180 + int(np.arctan(output['ypos']/output['xpos']) * np.pi/180)) % 360
-    while distance > threshold:
-        kulka.roll(speed, (direction + 90)%360)
-        roll_until_stuck(kulka, direction, speed)
-        kulka.read_locator()
-        data = kulka.data_poll()
-        output = parse_locator(data)
         distance = (output['xpos']**2 + output['ypos']**2)**0.5
-        direction = (180 + int(np.arctan(output['ypos']/output['xpos']) * np.pi/180)) % 360
-    print("In range of home")
+        print(speed_reading, distance, output['xpos'], output['ypos'])
+        time.sleep(3/20)
     
-def main(i = 0, limit = 1, max_distance = 100, speed = 50):
+def main(i = 0, limit = 10, max_distance = 100, speed = 50):
     # with open('mykulka.txt') as file_:
     #     addr = file_.readline().strip()
     addrs = [
@@ -76,18 +58,12 @@ def main(i = 0, limit = 1, max_distance = 100, speed = 50):
         t1 = time.time()
         steps = 0
         while (t1 - t0) < limit * 60:
-            print("-Step ", steps)
+            print("Step ", steps)
             steps += 1
-            kulka.read_locator()
             dir_base = randint(0, 5)
             direction = dir_base * 60
             roll_until_stuck(kulka, direction)
             time.sleep(0.1)
-            kulka.read_locator()
-            data = kulka.data_poll()
-            output = parse_locator(data)
-            distance = (output['xpos']**2 + output['ypos']**2)**0.5
-            if distance > 500: roll_to_home(kulka)
             t1 = time.time()
         kulka.close()
 
