@@ -1,47 +1,39 @@
 '''
-A simple script to keep Sphero rolling, and within a certain distance 
-of the start point
+A simple script to keep Sphero rolling
 '''
-
 import os, sys, time 
 import numpy as np
 from random import randint
 
 sys.path.append(os.path.abspath("../"))
 from kulka import Kulka
+from data_poll import parse_locator
 
-def parse_locator(data):
-    data_list = []
-    for kbyte in data[2]:
-        data_list.append(kbyte)
-        # print(type(kbyte))
-    output = dict()
-    output['xpos'] = 256*data_list[0] + data_list[1]
-    output['ypos'] = 256*data_list[2] + data_list[3]
-    output['xvel'] = 256*data_list[4] + data_list[5]
-    output['yvel'] = 256*data_list[6] + data_list[7]
-    for i, k in enumerate(output):
-        # print(k, output[k])
-        if output[k] > 32767:
-            output[k] -= 65536
-    output['sog'] = data_list[8] + data_list[9]
-    return output
-
-def roll_until_stuck(kulka, direction, speed = 50):
-    kulka.roll(speed, direction)
+def get_current_coords(kulka):
     kulka.read_locator()
     data = kulka.data_poll()
     output = parse_locator(data)
-    speed_reading = output['sog']
-    while speed_reading >= speed/20:
+    coords = (output['xpos'], output['ypos'])
+    return coords
+
+def distance_from_point(kulka, point = (0, 0)):
+    kulka.read_locator()
+    data = kulka.data_poll()
+    output = parse_locator(data)
+    distance = ((output['xpos'] - point[0])**2 +\
+                (output['ypos'] - point[1])**2)**0.5
+    return distance
+
+def roll_until_stuck(kulka, direction, speed = 50):
+    point_i = get_current_coords(kulka)
+    kulka.roll(speed, direction)
+    time.sleep(2)
+    distance_travelled = distance_from_point(kulka, point_i)
+    while distance_travelled >= 10:
+        point_i = get_current_coords(kulka)
         kulka.roll(speed, direction)
-        kulka.read_locator()
-        data = kulka.data_poll()
-        output = parse_locator(data)
-        speed_reading = output['sog']
-        distance = (output['xpos']**2 + output['ypos']**2)**0.5
-        print(speed_reading, distance, output['xpos'], output['ypos'])
-        time.sleep(3/20)
+        time.sleep(2)
+        distance_travelled = distance_from_point(kulka, point_i)
     
 def main(i = 0, limit = 10, max_distance = 100, speed = 50):
     # with open('mykulka.txt') as file_:
@@ -57,13 +49,13 @@ def main(i = 0, limit = 10, max_distance = 100, speed = 50):
         t0 = time.time()
         t1 = time.time()
         steps = 0
+        direction = 0
         while (t1 - t0) < limit * 60:
             print("Step ", steps)
             steps += 1
-            dir_base = randint(0, 5)
-            direction = dir_base * 60
             roll_until_stuck(kulka, direction)
             time.sleep(0.1)
+            direction = randint(0, 359)
             t1 = time.time()
         kulka.close()
 

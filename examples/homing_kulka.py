@@ -9,40 +9,7 @@ from random import randint
 
 sys.path.append(os.path.abspath("../"))
 from kulka import Kulka
-
-def parse_locator(data):
-    data_list = []
-    for kbyte in data[2]:
-        data_list.append(kbyte)
-        # print(type(kbyte))
-    output = dict()
-    output['xpos'] = 256*data_list[0] + data_list[1]
-    output['ypos'] = 256*data_list[2] + data_list[3]
-    output['xvel'] = 256*data_list[4] + data_list[5]
-    output['yvel'] = 256*data_list[6] + data_list[7]
-    for i, k in enumerate(output):
-        # print(k, output[k])
-        if output[k] > 32767:
-            output[k] -= 65536
-    output['sog'] = data_list[8] + data_list[9]
-    return output
-
-def roll_until_stuck(kulka, direction = None, speed = 50):
-    if direction == None: direction = randint(0, 359)
-    kulka.roll(speed, direction)
-    kulka.read_locator()
-    data = kulka.data_poll()
-    output = parse_locator(data)
-    speed_reading = output['sog']
-    while speed_reading >= speed/20:
-        kulka.roll(speed, direction)
-        kulka.read_locator()
-        data = kulka.data_poll()
-        output = parse_locator(data)
-        speed_reading = output['sog']
-        distance = (output['xpos']**2 + output['ypos']**2)**0.5
-        print(speed_reading, distance, output['xpos'], output['ypos'])
-        time.sleep(3/20)
+from data_poll import parse_locator
 
 def distance_from_point(kulka, point = (0, 0)):
 	kulka.read_locator()
