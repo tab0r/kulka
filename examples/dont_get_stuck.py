@@ -3,6 +3,7 @@ A simple script to keep Sphero rolling
 '''
 import os, sys, time 
 import numpy as np
+import tabors
 from random import randint
 
 sys.path.append(os.path.abspath("../"))
@@ -35,15 +36,8 @@ def roll_until_stuck(kulka, direction, speed = 50):
         time.sleep(2)
         distance_travelled = distance_from_point(kulka, point_i)
     
-def main(i = 0, limit = 10, max_distance = 100, speed = 50):
-    # with open('mykulka.txt') as file_:
-    #     addr = file_.readline().strip()
-    addrs = [
-    '68:86:E7:06:FD:1D',
-    '68:86:E7:07:07:6B',
-    '68:86:E7:08:0E:DF']
-    #
-    print("Connecting to Sphero", i)
+def main(addr, limit = 10, max_distance = 100, speed = 50):
+    print("Connecting to Sphero at ", addr)
     with Kulka(addrs[i]) as kulka:
         kulka.set_inactivity_timeout(300)
         t0 = time.time()
@@ -60,4 +54,4 @@ def main(i = 0, limit = 10, max_distance = 100, speed = 50):
         kulka.close()
 
 if __name__ == '__main__':
-    main(i = 1)
+    main(tabors.kulkas[0])

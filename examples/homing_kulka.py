@@ -5,6 +5,7 @@ of the start point
 
 import os, sys, time 
 import numpy as np
+import tabors
 from random import randint
 
 sys.path.append(os.path.abspath("../"))
@@ -42,13 +43,9 @@ def taxicab_homing(kulka, threshold = 3):
 		distance = distance_from_point(kulka)
 	print("In range of home")
     
-def main(i = 1, limit = 1, max_distance = 100, speed = 50):
-	addrs = [
-	'68:86:E7:06:FD:1D',
-	'68:86:E7:07:07:6B',
-	'68:86:E7:08:0E:DF']
-	print("Connecting to Sphero", i)
-	with Kulka(addrs[i]) as kulka:
+def main(addr, limit = 1, max_distance = 100, speed = 50):
+	print("Connecting to Sphero at ", addr)
+	with Kulka(addr) as kulka:
 		kulka.set_inactivity_timeout(300)
 		t0 = time.time()
 		t1 = time.time()
@@ -69,4 +66,4 @@ def main(i = 1, limit = 1, max_distance = 100, speed = 50):
 	kulka.close()
 
 if __name__ == '__main__':
-    main()
+    main(tabors.kulkas[0])
