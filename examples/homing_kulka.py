@@ -19,9 +19,10 @@ def distance_from_point(kulka, point = (0, 0)):
 				(output['ypos'] - point[1])**2)**0.5
 	return distance
 
-def taxicab_homing(kulka, threshold = 10, speed = 25):
+def taxicab_homing(kulka, threshold = 3):
 	distance = distance_from_point(kulka)
 	while distance > threshold:
+		speed = 30
 		kulka.read_locator()
 		data = kulka.data_poll()
 		output = parse_locator(data)
@@ -40,28 +41,8 @@ def taxicab_homing(kulka, threshold = 10, speed = 25):
 		time.sleep(3)
 		distance = distance_from_point(kulka)
 	print("In range of home")
-
-def roll_to_home_bad(kulka, threshold = 10, speed = 50):
-    # find our way home using the right hand rule
-    kulka.read_locator()
-    data = kulka.data_poll()
-    # print("Raw output:\n", data[2])
-    output = parse_locator(data)
-    speed_reading = output['sog']
-    distance = (output['xpos']**2 + output['ypos']**2)**0.5
-    direction = (180 + int(np.arctan(output['ypos']/output['xpos'] * np.pi/180))) % 360
-    while distance > threshold:
-        # kulka.roll(speed, (direction + 90)%360)
-        # roll_until_stuck(kulka, direction, speed)
-        kulka.roll(speed, direction)
-        kulka.read_locator()
-        data = kulka.data_poll()
-        output = parse_locator(data)
-        distance = (output['xpos']**2 + output['ypos']**2)**0.5
-        direction = (180 + int(np.arctan2(output['ypos'], output['xpos']) * np.pi/180)) % 360
-    print("In range of home")
     
-def main(i = 0, limit = 1, max_distance = 100, speed = 50):
+def main(i = 1, limit = 1, max_distance = 100, speed = 50):
 	addrs = [
 	'68:86:E7:06:FD:1D',
 	'68:86:E7:07:07:6B',
@@ -78,12 +59,12 @@ def main(i = 0, limit = 1, max_distance = 100, speed = 50):
 		while ((t1 - t0) < limit * 60):
 			time.sleep(3)
 			distance = distance_from_point(kulka)
-			print(steps, distance)
+			# print(steps, distance)
 			if distance > 100: 
 				print("outside range, rolling home")
 				taxicab_homing(kulka)
 				break
-			kulka.roll(speed, direction)
+			kulka.roll(speed, direction)	
 			t1 = time.time()
 	kulka.close()
 

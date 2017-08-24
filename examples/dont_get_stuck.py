@@ -60,4 +60,4 @@ def main(i = 0, limit = 10, max_distance = 100, speed = 50):
         kulka.close()
 
 if __name__ == '__main__':
-    main()
+    main(i = 1)

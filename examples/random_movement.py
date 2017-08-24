@@ -22,4 +22,4 @@ def main(i = 0):
         kulka.sleep()
 
 if __name__ == '__main__':
-    main()
+    main(i = 1)
