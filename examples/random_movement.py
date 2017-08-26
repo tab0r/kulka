@@ -7,7 +7,7 @@ from random import randint
 
 def main(addr):
     with Kulka(addr) as kulka:
-        print("Connected to Sphero ", i)
+        print("Connected to Sphero ", addr)
         kulka.set_inactivity_timeout(300)
         for _ in range(6):
             speed = randint(30, 100)

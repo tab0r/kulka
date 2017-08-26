@@ -38,7 +38,7 @@ def roll_until_stuck(kulka, direction, speed = 50):
     
 def main(addr, limit = 10, max_distance = 100, speed = 50):
     print("Connecting to Sphero at ", addr)
-    with Kulka(addrs[i]) as kulka:
+    with Kulka(addr) as kulka:
         kulka.set_inactivity_timeout(300)
         t0 = time.time()
         t1 = time.time()
